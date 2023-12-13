@@ -11,9 +11,9 @@
           <el-col :span="4" style="min-width: 120px;">
             <div class="box-right" v-if="username">欢迎</div>
             <div class="box-right user-msg" v-if="username"> {{ username }} </div>
-            <div class="box-login box-right" @click="showLoginView('登录',false)" v-if="!username">登录</div>
+            <div class="box-login box-right" @click="showLoginView('登录', false)" v-if="!username">登录</div>
             <div class="box-item box-right" v-if="!username">或</div>
-            <div class="box-register box-right" @click="showLoginView('注册',false)" v-if="!username">注册</div>
+            <div class="box-register box-right" @click="showLoginView('注册', false)" v-if="!username">注册</div>
           </el-col>
         </el-row>
       </el-header>
@@ -101,31 +101,22 @@ export default {
 }
 </script>
 <script setup>
-import {  onMounted, ref, inject} from "vue"
-import axios from 'axios';
+import { onMounted, ref, inject } from "vue"
 import store from '@/store';
 const reload = inject("reload")
 let username = ref(localStorage.getItem("username"))
 let login = ref(null)
-function showLoginView(type,isSwitch){
-  login.value.switchLoginMsg(type,isSwitch)
+function showLoginView(type, isSwitch) {
+  login.value.switchLoginMsg(type, isSwitch)
 }
 
-function loginOut(){
-  axios({
-    url:"/user/logout"
-  }).then((res)=>{
-    if(res.data.msg==="退出成功"){
-      store.commit("delToken");
-      showLoginView("登录",false);
-      store.commit("sucMessage",res.data.msg)
-    }else{
-      store.commit("warnMessage","操作失败")
-    }
-    reload()
-  })
+function loginOut() {
+  store.commit("delToken");
+  showLoginView("登录", false);
+  store.commit("sucMessage", res.data.msg)
+  reload()
 }
-onMounted(()=>{
+onMounted(() => {
   login.value.isLogin();
 })
 </script>
@@ -173,4 +164,5 @@ onMounted(()=>{
   .full-height {
     height: 100%;
   }
-}</style>
+}
+</style>
