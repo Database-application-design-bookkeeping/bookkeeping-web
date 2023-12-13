@@ -162,7 +162,7 @@ function register() {
     if (regEmail.test(ruleForm.email)) {
       axios({
         method: "post",
-        url: "/user/register",
+        url: "/user/registerre",
         data: {
           "username": ruleForm.username,
           "password": ruleForm.password,
