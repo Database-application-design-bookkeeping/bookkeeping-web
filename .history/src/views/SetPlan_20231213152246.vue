@@ -30,7 +30,7 @@ function saveExpection() {
 
 function getExpection() {
   axios({
-    url: "/exception"
+    url: "/expection"
   }).then((res) => {
     if (res.data.msg === "查询成功") {
       expection.value = res.data.data.amount

@@ -20,6 +20,8 @@ import store from "@/store";
 import axios from "axios";
 import { onMounted, reactive, ref } from "vue";
 
+const centerDialogVisible = ref(false)
+
 let userForm = reactive({
   username: "",
   email: ""

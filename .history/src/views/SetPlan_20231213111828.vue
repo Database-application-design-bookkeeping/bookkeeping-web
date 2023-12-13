@@ -18,7 +18,7 @@ import { onMounted, ref } from "vue"
 let expection = ref(0);
 function saveExpection() {
   axios({
-    url: `/exception/update?amount=${expection.value}`,
+    url: `/expection/update?amount=${expection.value}`,
   }).then((res) => {
     if (res.data.msg === "修改成功") {
       store.commit("sucMessage", res.data.msg)
@@ -30,7 +30,7 @@ function saveExpection() {
 
 function getExpection() {
   axios({
-    url: "/exception"
+    url: "/expection"
   }).then((res) => {
     if (res.data.msg === "查询成功") {
       expection.value = res.data.data.amount

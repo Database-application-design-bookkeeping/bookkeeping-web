@@ -12,7 +12,7 @@ import {
   TooltipComponent,
   LegendComponent,
 } from 'echarts/components';
-import { PieChart } from 'echarts/charts';
+import { PieChart, PieSeriesOption } from 'echarts/charts';
 import { LabelLayout } from 'echarts/features';
 import { CanvasRenderer } from 'echarts/renderers';
 import axios from "axios";

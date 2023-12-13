@@ -12,6 +12,19 @@
         <el-button class="login-content" type="primary" @click="saveUserInfo">保存</el-button>
       </el-form-item>
     </el-form>
+    <el-dialog v-model="centerDialogVisible" title="修改密码" width="30%" align-center>
+      <el-input v-model="userForm.originPwd" placeholder="请输入原密码" class="btn-space" />
+      <el-input v-model="userForm.newPwd" placeholder="请输入新密码" class="btn-space" />
+      <el-input v-model="userForm.checkPass" placeholder="确认新密码" class="btn-space" />
+
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button type="primary" @click="changePWD">
+            确定修改
+          </el-button>
+        </span>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
@@ -20,8 +33,13 @@ import store from "@/store";
 import axios from "axios";
 import { onMounted, reactive, ref } from "vue";
 
+const centerDialogVisible = ref(false)
+
 let userForm = reactive({
   username: "",
+  originPwd: "",
+  newPwd: "",
+  checkPass: "",
   email: ""
 })
 function getUserInfo() {
@@ -35,12 +53,44 @@ function getUserInfo() {
     }
   })
 }
+
+function changePWD() {
+  if (userForm.newPwd == userForm.checkPass) {
+    if (userForm.newPwd != "" && userForm.checkPass != "") {
+      axios({
+        method: "post",
+        url: "/user/updatePwd",
+        data: {
+          "originPwd": userForm.originPwd,
+          "newPwd": userForm.newPwd
+        }
+      }).then((res) => {
+        let msg = res.data.msg;
+        if (msg == "修改成功") {
+          store.commit("sucMessage", msg);
+          centerDialogVisible.value = false;
+        } else {
+          store.commit("warnMessage", msg)
+        }
+      }).catch((err) => {
+        console.log(err);
+
+      })
+    } else {
+      store.commit("warnMessage", "输入框不能为空")
+    }
+
+  } else {
+    store.commit("warnMessage", "两次输入的密码不同")
+  }
+
+}
+
 function saveUserInfo() {
   axios({
-    method:'post',
     url: "/user/update",
     data: {
-      "password": userForm.password,
+      "password": userForm.username,
       "email": userForm.email
     }
   }).then((res) => {
