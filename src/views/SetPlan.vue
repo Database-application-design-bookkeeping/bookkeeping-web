@@ -14,32 +14,32 @@
 <script setup>
 import store from "@/store";
 import axios from "axios";
-import {onMounted, ref} from "vue"
+import { onMounted, ref } from "vue"
 let expection = ref(0);
-function saveExpection(){
+function saveExpection() {
   axios({
-    url:`/expection/update?amount=${expection.value}`,
-  }).then((res)=>{
-    if(res.data.msg==="修改成功"){
-      store.commit("sucMessage",res.data.msg)
-    }else{
-      store.commit("warnMessage",res.data.msg)
+    url: `/expection/update?amount=${expection.value}`,
+  }).then((res) => {
+    if (res.data.msg === "修改成功") {
+      store.commit("sucMessage", res.data.msg)
+    } else {
+      store.commit("warnMessage", res.data.msg)
     }
   })
 }
 
-function getExpection(){
+function getExpection() {
   axios({
-    url:"/expection/info"
-  }).then((res)=>{
-    if(res.data.msg==="查询成功"){
+    url: "/expection"
+  }).then((res) => {
+    if (res.data.msg === "查询成功") {
       expection.value = res.data.data.amount
     }
-  }).catch((err)=>{
+  }).catch((err) => {
     console.log(err);
   })
 }
-onMounted(()=>{
+onMounted(() => {
   getExpection()
 })
 </script>

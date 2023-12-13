@@ -68,7 +68,7 @@ function assignment(type, msg) {
 //获取用户的支出、收入。利润等信息
 function getUserAmount() {
   axios({
-    url: "/account/info"
+    url: "/account"
   }).then((res) => {
     if (res.data.msg === "查询成功") {
       let msg = res.data.data;

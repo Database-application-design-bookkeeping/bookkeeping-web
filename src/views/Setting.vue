@@ -35,22 +35,22 @@
 <script setup>
 import store from "@/store";
 import axios from "axios";
-import { onMounted, reactive,ref } from "vue";
+import { onMounted, reactive, ref } from "vue";
 
 const centerDialogVisible = ref(false)
 
 let userForm = reactive({
-    username:"",
-    originPwd:"",
-    newPwd:"",
-    checkPass:"",
-    email:""
+  username: "",
+  originPwd: "",
+  newPwd: "",
+  checkPass: "",
+  email: ""
 })
-function getUserInfo(){
+function getUserInfo() {
   axios({
-    url:"/user/info"
-  }).then((res)=>{
-    if(res.data.msg==="查询成功"){
+    url: "/user/info"
+  }).then((res) => {
+    if (res.data.msg === "查询成功") {
       let msg = res.data.data;
       userForm.username = msg.username
       userForm.email = msg.email
@@ -58,57 +58,57 @@ function getUserInfo(){
   })
 }
 
-function changePWD(){
-  if(userForm.newPwd==userForm.checkPass){
-    if(userForm.newPwd!=""&&userForm.checkPass!=""){
+function changePWD() {
+  if (userForm.newPwd == userForm.checkPass) {
+    if (userForm.newPwd != "" && userForm.checkPass != "") {
       axios({
-    method:"post",
-    url:"/user/updatePwd",
-    data:{
-      "originPwd":userForm.originPwd,
-      "newPwd":userForm.newPwd
+        method: "post",
+        url: "/user/updatePwd",
+        data: {
+          "originPwd": userForm.originPwd,
+          "newPwd": userForm.newPwd
+        }
+      }).then((res) => {
+        let msg = res.data.msg;
+        if (msg == "修改成功") {
+          store.commit("sucMessage", msg);
+          centerDialogVisible.value = false;
+        } else {
+          store.commit("warnMessage", msg)
+        }
+      }).catch((err) => {
+        console.log(err);
+
+      })
+    } else {
+      store.commit("warnMessage", "输入框不能为空")
     }
-  }).then((res)=>{
-    let msg = res.data.msg;
-    if(msg=="修改成功"){
-      store.commit("sucMessage",msg);
-      centerDialogVisible.value = false;
-    }else{
-      store.commit("warnMessage",msg)
-    }
-  }).catch((err)=>{
-    console.log(err);
-    
-  })
-    }else{
-      store.commit("warnMessage","输入框不能为空")
-    }
-    
-  }else{
-    store.commit("warnMessage","两次输入的密码不同")
+
+  } else {
+    store.commit("warnMessage", "两次输入的密码不同")
   }
-  
+
 }
 
-function saveUserInfo(){
+function saveUserInfo() {
   axios({
-    url:"/user/update",
-    data:{
-      "username":userForm.username,
-      "email":userForm.email
+    url: "/user/update",
+    data: {
+      "username": userForm.username,
+      "email": userForm.email
     }
-  }).then((res)=>{
+  }).then((res) => {
     let msg = res.data.msg
-    if(msg ==="修改成功"){
-      store.commit("sucMessage",msg)
-    }else{
-      store.commit("warnMessage",msg)
+    if (msg === "修改成功") {
+      store.commit("sucMessage", msg)
+    } else {
+      store.commit("warnMessage", msg)
     }
-  }).catch((err)=>{
+  }).catch((err) => {
     console.log(err);
   })
 }
-onMounted(()=>{
+onMounted(() => {
   getUserInfo()
 })
 </script>

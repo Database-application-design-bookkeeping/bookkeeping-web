@@ -118,7 +118,7 @@ function assignmentData(data, type) {
 //获取总的收入信息
 function getIncome() {
   axios({
-    url: "/income/info/total",
+    url: "/income/total",
   }).then((res) => {
     if (res.data.msg === "查询成功") {
       let expense = res.data.data
@@ -139,7 +139,7 @@ function getIncome() {
 //获取总的支出信息
 function getExpense() {
   axios({
-    url: "/expense/info/total",
+    url: "/expense/total",
   }).then((res) => {
     if (res.data.msg === "查询成功") {
       let expense = res.data.data

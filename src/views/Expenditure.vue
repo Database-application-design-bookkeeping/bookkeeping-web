@@ -1,6 +1,6 @@
 <template>
   <div class="expenditure">
-    <el-tabs type="border-card" class="demo-tabs" @tab-click="handleClick" v-model="activeName ">
+    <el-tabs type="border-card" class="demo-tabs" @tab-click="handleClick" v-model="activeName">
       <el-tab-pane label="今日支出" name="day">
         <el-table :data="tableData.dayExpense" stripe>
           <ExpenseTableColumn></ExpenseTableColumn>
@@ -21,7 +21,7 @@
           <ExpenseTableColumn></ExpenseTableColumn>
         </el-table>
       </el-tab-pane>
-      <el-tab-pane :label="'支出总金额：'+total+'￥'" disabled></el-tab-pane>
+      <el-tab-pane :label="'支出总金额：' + total + '￥'" disabled></el-tab-pane>
     </el-tabs>
   </div>
 </template>
@@ -35,81 +35,81 @@ export default {
 }
 </script>
 <script setup>
-import { onMounted, reactive,ref } from "vue";
+import { onMounted, reactive, ref } from "vue";
 import axios from "axios";
-const activeName =ref("day")
+const activeName = ref("day")
 const tableData = reactive({
   dayExpense: [],
   weekExpense: [],
   monthExpense: [],
   totalExpense: [],
-  dayTotal : 0,
-  weekTotal : 0,
-  monthTotal : 0,
+  dayTotal: 0,
+  weekTotal: 0,
+  monthTotal: 0,
   total: 0
 })
 let total = ref(0)
 
-function getExpense(type){
+function getExpense(type) {
   axios({
-    url:`/expense/info/${type}`,
-  }).then((res)=>{
+    url: `/expense/${type}`,
+  }).then((res) => {
     let expense = res.data.data
-    if(res.data.msg==="查询成功"){
+    if (res.data.msg === "查询成功") {
       total.value = tableData.dayTotal;
-      switch(type){
-      case "day":{
-        tableData.dayTotal = expense.total||0;
-        tableData.dayExpense = expense.expenseVos;
-        break;
-      };
-      case "week":{
-        tableData.weekTotal = expense.total||0;
-        tableData.weekExpense = expense.expenseVos;
-        break;
-      };
-      case "month":{
-        tableData.monthTotal = expense.total||0;
-        tableData.monthExpense = expense.expenseVos;
-        break;
-      };
-      case "total":{
-        tableData.total = expense.total||0;
-        tableData.totalExpense = expense.expenseVos;
-        break;
-      };
+      switch (type) {
+        case "day": {
+          tableData.dayTotal = expense.total || 0;
+          tableData.dayExpense = expense.expenseVos;
+          break;
+        };
+        case "week": {
+          tableData.weekTotal = expense.total || 0;
+          tableData.weekExpense = expense.expenseVos;
+          break;
+        };
+        case "month": {
+          tableData.monthTotal = expense.total || 0;
+          tableData.monthExpense = expense.expenseVos;
+          break;
+        };
+        case "total": {
+          tableData.total = expense.total || 0;
+          tableData.totalExpense = expense.expenseVos;
+          break;
+        };
+      }
     }
-    }
-  }).catch((err)=>{
+  }).catch((err) => {
     console.log(err);
   })
 }
 
 let handleClick = (tab) => {
-  switch(tab.paneName){
-    case "day":{
+  switch (tab.paneName) {
+    case "day": {
       total.value = tableData.dayTotal;
       break;
     };
-    case "week":{
+    case "week": {
       total.value = tableData.weekTotal;
       break;
     };
-    case "month":{
+    case "month": {
       total.value = tableData.monthTotal;
       break;
     };
-    case "total":{
+    case "total": {
       total.value = tableData.total;
       break;
     }
   }
 }
-onMounted(()=>{
-  ["day","week","month","total"].map((item)=>{
+onMounted(() => {
+  ["day", "week", "month", "total"].map((item) => {
     getExpense(item);
   })
-}) 
+})
 
 </script>
 <style></style>

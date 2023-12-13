@@ -142,7 +142,10 @@ function usernameLog() {
   }).then((res) => {
     if (res.data.msg == "登录成功") {
       isShowLogin.value = false;
-      setStoreMsg(res.data.data.token, res.data.data.username)
+      let token = res.data.data
+      let user = JSON.parse(decodeURIComponent(escape(window.atob(token.split('.')[1])))).username
+      console.log(user);
+      setStoreMsg(token, user)
       store.commit("sucMessage", res.data.msg)
       reload()
     } else {

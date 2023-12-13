@@ -35,7 +35,7 @@ export default {
 }
 </script>
 <script setup>
-import { onBeforeUpdate, onMounted, reactive, ref } from "vue";
+import { onMounted, reactive, ref } from "vue";
 import axios from "axios";
 const activeName = ref("day")
 const tableData = reactive({
@@ -52,7 +52,7 @@ let total = ref(0)
 
 function getIncome(type) {
   axios({
-    url: `/income/info/${type}`,
+    url: `/income/${type}`,
   }).then((res) => {
     let income = res.data.data
     if (res.data.msg === "查询成功") {

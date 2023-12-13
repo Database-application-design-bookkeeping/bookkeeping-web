@@ -11,7 +11,7 @@ const app = createApp(App);
 axios.interceptors.request.use(function (request) {
     let token = localStorage.getItem("token");
     if (token) {
-        request.headers.satoken = token;
+        request.headers.Authorization = token;
     }
     return request
 }, async function (error) {
@@ -26,7 +26,7 @@ axios.interceptors.response.use(function (response) {
 }, async function (error) {
     return Promise.reject(error)
 })
-axios.defaults.baseURL = 'http://8.130.31.247:8080';
+axios.defaults.baseURL = 'https://jizhang.hardews.cn/';
 app.use(ElementPlus)
 app.use(_);
 app.use(store);
