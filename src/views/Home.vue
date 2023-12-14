@@ -113,7 +113,7 @@ function showLoginView(type, isSwitch) {
 function loginOut() {
   store.commit("delToken");
   showLoginView("登录", false);
-  store.commit("sucMessage", res.data.msg)
+  store.commit("sucMessage", '退出成功')
   reload()
 }
 onMounted(() => {
